@@ -6,6 +6,10 @@ This project consists of a series of Terraform scripts to automate the buildout 
 
 These Terraform scripts are designed to create a new Azure Resource Group using a service principal for authentication.
 
+## Create Azure Virtual Network:
+
+These Terraform scripts are designed to create a new Azure virtual network and apply it to a previously exisisting Azure Resource Group.
+
 ### Pre-Conditions to Run Any of the Scripts in this Project
 
 1. **Azure Subscription**: You must have an active Azure subscription.
