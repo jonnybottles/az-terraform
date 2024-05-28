@@ -1,4 +1,5 @@
 # main.tf
+
 data "azurerm_key_vault" "kv" {
   provider            = azurerm.keyvault
   name                = var.key_vault_name
@@ -31,7 +32,24 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = var.new_resource_group_name
-  location = var.location
+# Obtain existing Resource Group
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
 }
+
+# Create virtual network
+resource "azurerm_virtual_network" "main" {
+  name                = "mainVNet"
+  address_space       = var.main_vnet_address_space
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+
+# Create Subnets within the VNet
+resource "azurerm_subnet" "subnet1" {
+  name                 = "subnet1"
+  resource_group_name  = data.azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = var.subnet1_prefix
+}
+
