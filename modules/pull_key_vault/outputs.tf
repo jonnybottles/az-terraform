@@ -1,17 +1,13 @@
 # pull_key_vault/outputs.tf
 
-output "client_id_retrieved" {
-  description = "Confirmation that the Client ID was successfully retrieved from Key Vault"
-  value       = "Azure Service Principal Client ID successfully retrieved."
+output "admin_username" {
+  description = "The admin username retrieved from Key Vault"
+  value       = data.azurerm_key_vault_secret.admin_username.value
+  sensitive   = true
 }
 
-output "client_secret_retrieved" {
-  description = "Confirmation that the Client Secret was successfully retrieved from Key Vault"
-  value       = "Azure Service Principal Client Secret successfully retrieved."
+output "admin_password" {
+  description = "The admin password retrieved from Key Vault"
+  value       = data.azurerm_key_vault_secret.admin_password.value
+  sensitive   = true
 }
-
-output "tenant_id_retrieved" {
-  description = "Confirmation that the Tenant ID was successfully retrieved from Key Vault"
-  value       = "Azure Service Principal Tenant ID successfully retrieved."
-}
-

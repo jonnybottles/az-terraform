@@ -9,3 +9,4 @@ variable "key_vault_rg" {
   description = "The name of the resource group containing the Key Vault"
   type        = string
 }
+

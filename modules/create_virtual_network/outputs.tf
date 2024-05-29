@@ -1,16 +1,17 @@
-# outputs.tf
+# create virtual network outputs.tf
 
-output "existing_resource_group_name" {
-  description = "The name of the existing resource group the VNet is associated with"
-  value       = data.azurerm_resource_group.rg.name
-}
-
-output "main_vnet_name" {
-  description = "The name of the new main Virtual Network"
+output "vnet_name" {
+  description = "The name of the virtual network"
   value       = azurerm_virtual_network.main.name
 }
 
-output "subnet1_name" {
-  description = "The name of the first subnet in the main VNet"
-  value       = azurerm_subnet.subnet1.name
+output "subnet_names" {
+  description = "The names of the subnets"
+  value       = [for subnet in azurerm_subnet.subnet : subnet.name]
 }
+
+output "subnet_ids" {
+  description = "The IDs of the created subnets"
+  value       = azurerm_subnet.subnet[*].id
+}
+

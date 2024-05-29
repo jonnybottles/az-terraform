@@ -1,5 +1,11 @@
 # outputs.tf
-output "resource_group_name" {
-  description = "The name of the new resource group"
-  value       = azurerm_resource_group.example.name
+
+output "name" {
+  description = "The name of the resource group"
+  value       = azurerm_resource_group.rg.name
+}
+
+output "location" {
+  description = "The location of the resource group"
+  value       = azurerm_resource_group.rg.location
 }

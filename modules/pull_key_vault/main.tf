@@ -6,17 +6,12 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = var.key_vault_rg
 }
 
-data "azurerm_key_vault_secret" "client_id" {
-  name         = "servicePrincipalClientId"
+data "azurerm_key_vault_secret" "admin_username" {
+  name         = "vmAdminUsername1"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-data "azurerm_key_vault_secret" "client_secret" {
-  name         = "servicePrincipalClientSecret"
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
-
-data "azurerm_key_vault_secret" "tenant_id" {
-  name         = "servicePrincipalTenantId"
+data "azurerm_key_vault_secret" "admin_password" {
+  name         = "vmAdminPassword1"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
