@@ -31,6 +31,12 @@ module "network_security_group" {
   security_rules      = var.security_rules
 }
 
+# Associate NSG with Subnet
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = module.virtual_network.subnet_ids[0]
+  network_security_group_id = module.network_security_group.nsg_id
+}
+
 module "vm" {
   source              = "./modules/create_vm"
   resource_group_name = module.resource_group.name
