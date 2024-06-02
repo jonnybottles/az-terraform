@@ -32,6 +32,7 @@ variable "vm_configs" {
   type = list(object({
     name = string
     size = string
+    disk_size_gb = number 
     image = object({
       publisher = string
       offer     = string

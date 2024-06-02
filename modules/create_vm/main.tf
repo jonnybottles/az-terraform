@@ -15,6 +15,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     name                 = "${var.vm_configs[count.index].name}_osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = var.vm_configs[count.index].disk_size_gb
   }
 
   source_image_reference {

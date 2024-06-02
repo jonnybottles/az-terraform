@@ -71,8 +71,9 @@ variable "security_rules" {
 variable "vm_configs" {
   description = "Configuration for the VMs"
   type = list(object({
-    name = string
-    size = string
+    name         = string
+    size         = string
+    disk_size_gb = number
     image = object({
       publisher = string
       offer     = string
