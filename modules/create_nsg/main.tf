@@ -25,3 +25,10 @@ resource "azurerm_network_security_rule" "nsg_rule" {
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
+
+# Associate NSG with Subnet
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+  count                      = length(var.subnet_ids)
+  subnet_id                  = var.subnet_ids[count.index]
+  network_security_group_id  = azurerm_network_security_group.nsg.id
+}

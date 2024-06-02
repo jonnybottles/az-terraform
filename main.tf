@@ -1,7 +1,5 @@
 # main.tf
 
-# main.tf
-
 module "key_vault" {
   source         = "./modules/pull_key_vault"
   key_vault_name = var.key_vault_name
@@ -29,13 +27,10 @@ module "network_security_group" {
   location            = var.location
   resource_group_name = module.resource_group.name
   security_rules      = var.security_rules
+  subnet_ids          = module.virtual_network.subnet_ids
 }
 
-# Associate NSG with Subnet
-resource "azurerm_subnet_network_security_group_association" "example" {
-  subnet_id                 = module.virtual_network.subnet_ids[0]
-  network_security_group_id = module.network_security_group.nsg_id
-}
+
 
 module "vm" {
   source              = "./modules/create_vm"

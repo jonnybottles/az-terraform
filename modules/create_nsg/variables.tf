@@ -30,3 +30,8 @@ variable "security_rules" {
     destination_address_prefix = string
   }))
 }
+
+variable "subnet_ids" {
+  description = "List of subnet IDs to associate with this NSG"
+  type        = list(string)
+}
