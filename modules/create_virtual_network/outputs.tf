@@ -15,3 +15,8 @@ output "subnet_ids" {
   value       = azurerm_subnet.subnet[*].id
 }
 
+
+output "bastion_subnet_id" {
+  description = "The ID of the Bastion subnet"
+  value       = azurerm_subnet.bastion_subnet.id
+}

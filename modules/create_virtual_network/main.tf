@@ -14,3 +14,10 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes    = var.subnets[count.index].address_prefixes
 }
+
+resource "azurerm_subnet" "bastion_subnet" {
+  name                 = var.bastion_subnet.name
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = [var.bastion_subnet.address_prefix]
+}

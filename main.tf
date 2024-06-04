@@ -19,6 +19,7 @@ module "virtual_network" {
   location            = var.location
   resource_group_name = module.resource_group.name
   subnets             = var.subnets
+  bastion_subnet      = var.bastion_subnet
 }
 
 module "network_security_group" {
@@ -30,7 +31,13 @@ module "network_security_group" {
   subnet_ids          = module.virtual_network.subnet_ids
 }
 
-
+module "bastion_host" {
+  source              = "./modules/create_bastion_host"
+  bastion_name        = var.bastion_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.virtual_network.bastion_subnet_id
+}
 
 module "vm" {
   source              = "./modules/create_vm"

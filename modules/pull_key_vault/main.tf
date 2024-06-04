@@ -15,3 +15,8 @@ data "azurerm_key_vault_secret" "admin_password" {
   name         = "vmAdminPassword1"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
+
+data "azurerm_key_vault_secret" "vpn_shared_key" {
+  name         = "vpn-shared-key"  
+  key_vault_id = data.azurerm_key_vault.kv.id
+}

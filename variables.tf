@@ -1,5 +1,3 @@
-#variables.tf
-
 ## Pull Key Vault module vars
 variable "key_vault_name" {
   description = "The name of the existing Key Vault"
@@ -46,6 +44,14 @@ variable "subnets" {
   }))
 }
 
+variable "bastion_subnet" {
+  description = "The configuration for the Azure Bastion subnet"
+  type = object({
+    name            = string
+    address_prefix  = string
+  })
+}
+
 ## Create NSG module vars
 variable "nsg_name" {
   description = "The name of the Network Security Group"
@@ -67,6 +73,16 @@ variable "security_rules" {
   }))
 }
 
+## Bastion Host variables
+variable "bastion_name" {
+  description = "The name of the Bastion Host"
+  type        = string
+}
+
+
+## Existing variables...
+
+
 ## Create VM module vars
 variable "vm_configs" {
   description = "Configuration for the VMs"
@@ -81,4 +97,3 @@ variable "vm_configs" {
     })
   }))
 }
-

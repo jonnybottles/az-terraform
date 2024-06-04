@@ -27,3 +27,11 @@ variable "subnets" {
     address_prefixes = list(string)
   }))
 }
+
+variable "bastion_subnet" {
+  description = "The configuration for the Azure Bastion subnet"
+  type = object({
+    name            = string
+    address_prefix  = string
+  })
+}
