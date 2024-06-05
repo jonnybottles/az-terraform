@@ -31,6 +31,14 @@ module "network_security_group" {
   subnet_ids          = module.virtual_network.subnet_ids
 }
 
+module "nat_gateway" {
+  source              = "./modules/create_nat_gateway"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.virtual_network.subnet_ids[0]
+  prefix_length       = 30 # or any other length you prefer
+}
+
 module "bastion_host" {
   source              = "./modules/create_bastion_host"
   bastion_name        = var.bastion_name
@@ -48,3 +56,4 @@ module "vm" {
   admin_password      = module.key_vault.admin_password
   vm_configs          = var.vm_configs
 }
+

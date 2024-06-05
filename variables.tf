@@ -73,6 +73,13 @@ variable "security_rules" {
   }))
 }
 
+## Create NAT Gateway module vars
+variable "address_prefix" {
+  description = "The address prefix for the NAT Gateway subnet"
+  type        = string
+  default     = "10.0.0.0/30"
+}
+
 ## Bastion Host variables
 variable "bastion_name" {
   description = "The name of the Bastion Host"
@@ -85,9 +92,9 @@ variable "bastion_name" {
 variable "vm_configs" {
   description = "Configuration for the VMs"
   type = list(object({
-    name = string
-    size = string
-    disk_size_gb = number
+    name             = string
+    size             = string
+    disk_size_gb     = number
     create_public_ip = bool
     image = object({
       publisher = string
