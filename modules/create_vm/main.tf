@@ -1,6 +1,39 @@
 
 #create_vm/main.tf
 
+resource "azurerm_public_ip" "public_ip" {
+  count               = length([for vm in var.vm_configs : vm if vm.create_public_ip])
+  name                = "${element([for vm in var.vm_configs : vm.name if vm.create_public_ip], count.index)}-pip"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Dynamic"
+  sku                 = "Standard"
+}
+
+resource "azurerm_network_interface" "nic" {
+  count               = length(var.vm_configs)
+  name                = "${var.vm_configs[count.index].name}-nic"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  dynamic "ip_configuration" {
+    for_each = var.vm_configs[count.index].create_public_ip ? [1] : []
+    content {
+      name                          = "internal"
+      subnet_id                     = var.subnet_id
+      private_ip_address_allocation = "Dynamic"
+      public_ip_address_id          = element(azurerm_public_ip.public_ip.*.id, count.index)
+    }
+  }
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = null
+  }
+}
+
 resource "azurerm_windows_virtual_machine" "vm" {
   count                 = length(var.vm_configs)
   name                  = var.vm_configs[count.index].name
@@ -23,18 +56,5 @@ resource "azurerm_windows_virtual_machine" "vm" {
     offer     = var.vm_configs[count.index].image.offer
     sku       = var.vm_configs[count.index].image.sku
     version   = "latest"
-  }
-}
-
-resource "azurerm_network_interface" "nic" {
-  count               = length(var.vm_configs)
-  name                = "${var.vm_configs[count.index].name}-nic"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
   }
 }

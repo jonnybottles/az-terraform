@@ -47,8 +47,8 @@ variable "subnets" {
 variable "bastion_subnet" {
   description = "The configuration for the Azure Bastion subnet"
   type = object({
-    name            = string
-    address_prefix  = string
+    name           = string
+    address_prefix = string
   })
 }
 
@@ -80,16 +80,15 @@ variable "bastion_name" {
 }
 
 
-## Existing variables...
-
-
 ## Create VM module vars
+
 variable "vm_configs" {
   description = "Configuration for the VMs"
   type = list(object({
-    name         = string
-    size         = string
+    name = string
+    size = string
     disk_size_gb = number
+    create_public_ip = bool
     image = object({
       publisher = string
       offer     = string
@@ -97,3 +96,4 @@ variable "vm_configs" {
     })
   }))
 }
+
