@@ -45,6 +45,12 @@ module "bastion_host" {
   location            = var.location
   resource_group_name = module.resource_group.name
   subnet_id           = module.virtual_network.bastion_subnet_id
+
+  # Add dependency to ensure the virtual network and subnet are created first
+  depends_on = [
+    module.virtual_network
+  ]
+
 }
 
 module "vm" {
@@ -55,5 +61,12 @@ module "vm" {
   admin_username      = module.key_vault.admin_username
   admin_password      = module.key_vault.admin_password
   vm_configs          = var.vm_configs
+
+  # Add dependency to ensure the virtual network and nat gateway are created first
+  depends_on = [
+    module.virtual_network,
+    module.nat_gateway
+  ]
+
 }
 

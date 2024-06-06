@@ -6,7 +6,7 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "${element([for vm in var.vm_configs : vm.name if vm.create_public_ip], count.index)}-pip"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   sku                 = "Standard"
 }
 
@@ -19,18 +19,19 @@ resource "azurerm_network_interface" "nic" {
   dynamic "ip_configuration" {
     for_each = var.vm_configs[count.index].create_public_ip ? [1] : []
     content {
-      name                          = "internal"
+      name                          = "public"
       subnet_id                     = var.subnet_id
       private_ip_address_allocation = "Dynamic"
       public_ip_address_id          = element(azurerm_public_ip.public_ip.*.id, count.index)
+      primary                       = true
     }
   }
 
   ip_configuration {
-    name                          = "internal"
+    name                          = "private"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = null
+    primary                       = var.vm_configs[count.index].create_public_ip ? false : true
   }
 }
 
