@@ -34,3 +34,4 @@ variable "vm_subnet_id" {
   description = "The ID of the subnet for the VM NIC"
   type        = string
 }
+

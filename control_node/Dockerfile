@@ -1,17 +1,29 @@
 # Use a base image with Python installed
 FROM ubuntu:20.04
 
+# Set environment variable to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
     sudo \
     wget \
     curl \
     unzip \
-    gnupg2 \
     software-properties-common \
     openssh-server \
     iproute2 \
-    net-tools
+    net-tools \
+    vim \
+    less \
+    iputils-ping \
+    procps \
+    ubuntu-standard \
+    git \
+    tzdata
+
+# Set the timezone (replace with your desired timezone)
+ENV TZ=Etc/UTC
 
 # Install PowerShell
 RUN wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
@@ -37,9 +49,9 @@ RUN chmod 600 /home/ansible/.ssh/authorized_keys
 RUN apt-get install -y python3-pip && \
     pip3 install pywinrm
 
-# Copy Ansible playbook
-COPY ansible/playbook.yml /home/ansible/playbook.yml
-RUN chown ansible:ansible /home/ansible/playbook.yml
+# Copy Ansible directory
+COPY ansible /home/ansible/ansible
+RUN chown -R ansible:ansible /home/ansible/ansible
 
 # Copy entry point script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

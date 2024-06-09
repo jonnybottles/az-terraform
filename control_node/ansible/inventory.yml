@@ -1,0 +1,5 @@
+[windows]
+192.168.1.8 ansible_user=jonathan ansible_password='REPLACE' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

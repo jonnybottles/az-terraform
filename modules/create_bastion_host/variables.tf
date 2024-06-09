@@ -19,3 +19,4 @@ variable "subnet_id" {
   description = "The ID of the subnet to use for the Bastion Host"
   type        = string
 }
+

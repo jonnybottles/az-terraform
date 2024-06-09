@@ -46,7 +46,6 @@ module "bastion_host" {
   depends_on          = [module.virtual_network]
 }
 
-
 module "vm" {
   source              = "./modules/create_vm"
   resource_group_name = module.resource_group.name
