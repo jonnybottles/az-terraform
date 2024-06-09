@@ -31,10 +31,11 @@ variable "admin_password" {
 variable "vm_configs" {
   description = "Configuration for the VMs"
   type = list(object({
-    name = string
-    size = string
-    disk_size_gb = number
-    create_public_ip = bool
+    name                       = string
+    size                       = string
+    disk_size_gb               = number
+    create_public_ip           = bool
+    enable_powershell_remoting = bool
     image = object({
       publisher = string
       offer     = string
@@ -42,3 +43,4 @@ variable "vm_configs" {
     })
   }))
 }
+

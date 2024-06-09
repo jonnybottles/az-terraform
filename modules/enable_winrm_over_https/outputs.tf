@@ -1,0 +1,1 @@
+# modules/enable_winrm_over_https/outputs.tf

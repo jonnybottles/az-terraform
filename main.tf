@@ -39,19 +39,14 @@ module "nat_gateway" {
   prefix_length       = 30 # or any other length you prefer
 }
 
-module "bastion_host" {
-  source              = "./modules/create_bastion_host"
-  bastion_name        = var.bastion_name
-  location            = var.location
-  resource_group_name = module.resource_group.name
-  subnet_id           = module.virtual_network.bastion_subnet_id
-
-  # Add dependency to ensure the virtual network and subnet are created first
-  depends_on = [
-    module.virtual_network
-  ]
-
-}
+#module "bastion_host" {
+#  source              = "./modules/create_bastion_host"
+#  bastion_name        = var.bastion_name
+#  location            = var.location
+#  resource_group_name = module.resource_group.name
+#  subnet_id           = module.virtual_network.bastion_subnet_id
+#  depends_on          = [module.virtual_network]
+#}
 
 module "vm" {
   source              = "./modules/create_vm"
@@ -61,12 +56,15 @@ module "vm" {
   admin_username      = module.key_vault.admin_username
   admin_password      = module.key_vault.admin_password
   vm_configs          = var.vm_configs
-
-  # Add dependency to ensure the virtual network and nat gateway are created first
-  depends_on = [
-    module.virtual_network,
-    module.nat_gateway
-  ]
-
+  depends_on          = [module.virtual_network, module.nat_gateway]
 }
 
+module "enable_winrm_over_https" {
+  source         = "./modules/enable_winrm_over_https"
+  admin_username = module.key_vault.admin_username
+  admin_password = module.key_vault.admin_password
+  vm_configs     = var.vm_configs
+  vm_ids         = module.vm.vm_ids
+  vm_private_ips = module.vm.vm_private_ips
+  vm_public_ips  = module.vm.vm_public_ips
+}

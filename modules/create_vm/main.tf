@@ -59,3 +59,19 @@ resource "azurerm_windows_virtual_machine" "vm" {
     version   = "latest"
   }
 }
+
+resource "azurerm_virtual_machine_extension" "enable_winrm" {
+  count                 = length([for vm in var.vm_configs : vm if vm.enable_powershell_remoting])
+  name                  = "${element([for vm in var.vm_configs : vm.name if vm.enable_powershell_remoting], count.index)}-enable-winrm"
+  virtual_machine_id    = element([for vm in azurerm_windows_virtual_machine.vm : vm.id if contains([for c in var.vm_configs : c.name if c.enable_powershell_remoting], vm.name)], count.index)
+  publisher             = "Microsoft.Compute"
+  type                  = "CustomScriptExtension"
+  type_handler_version  = "1.10"
+
+  settings = <<SETTINGS
+    {
+      "fileUris": ["https://jonnybottles.blob.core.windows.net/scripts/enable_winrm_https_template.ps1?sp=r&st=2024-06-08T20:45:25Z&se=2024-06-09T04:45:25Z&spr=https&sv=2022-11-02&sr=b&sig=Q9O%2FtUZhWV9WQcPEX3Q3Je49kT3siuxLWUjBHJDmLCM%3D"],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File enable_winrm_https_template.ps1 -PrivateIp ${element(azurerm_network_interface.nic.*.private_ip_address, count.index)} ${length([for vm in var.vm_configs : vm if vm.create_public_ip]) > count.index ? "-PublicIp ${element(azurerm_public_ip.public_ip.*.ip_address, count.index)}" : ""}"
+    }
+  SETTINGS
+}
