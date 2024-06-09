@@ -105,3 +105,7 @@ variable "vm_configs" {
   }))
 }
 
+variable "ssh_key_path" {
+  description = "The path to the SSH public key file"
+  type        = string
+}

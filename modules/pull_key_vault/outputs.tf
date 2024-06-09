@@ -12,8 +12,14 @@ output "admin_password" {
   sensitive   = true
 }
 
-output "vpn_shared_key" {
-  description = "The VPN shared key retrieved from Key Vault"
-  value       = data.azurerm_key_vault_secret.vpn_shared_key.value
-  sensitive   = true
-}
+#output "vpn_shared_key" {
+#  description = "The VPN shared key retrieved from Key Vault"
+#  value       = data.azurerm_key_vault_secret.vpn_shared_key.value
+#  sensitive   = true
+#}
+
+#output "storage_account_key" {
+#  description = "The storage account key retrieved from Key Vault"
+#  value       = data.azurerm_key_vault_secret.storage_account_key.value
+#  sensitive   = true
+#}

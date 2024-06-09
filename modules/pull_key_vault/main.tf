@@ -16,7 +16,12 @@ data "azurerm_key_vault_secret" "admin_password" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-data "azurerm_key_vault_secret" "vpn_shared_key" {
-  name         = "vpn-shared-key"  
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
+#data "azurerm_key_vault_secret" "vpn_shared_key" {
+#  name         = "vpn-shared-key"  
+#  key_vault_id = data.azurerm_key_vault.kv.id
+#}
+
+#data "azurerm_key_vault_secret" "storage_account_key" {
+#  name         = "storage-account-key"
+#  key_vault_id = data.azurerm_key_vault.kv.id
+#}

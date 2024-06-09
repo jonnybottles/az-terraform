@@ -1,5 +1,3 @@
-# main.tf
-
 module "key_vault" {
   source         = "./modules/pull_key_vault"
   key_vault_name = var.key_vault_name
@@ -39,14 +37,14 @@ module "nat_gateway" {
   prefix_length       = 30 # or any other length you prefer
 }
 
-#module "bastion_host" {
-#  source              = "./modules/create_bastion_host"
-#  bastion_name        = var.bastion_name
-#  location            = var.location
-#  resource_group_name = module.resource_group.name
-#  subnet_id           = module.virtual_network.bastion_subnet_id
-#  depends_on          = [module.virtual_network]
-#}
+# module "bastion_host" {
+#   source              = "./modules/create_bastion_host"
+#   bastion_name        = var.bastion_name
+#   location            = var.location
+#   resource_group_name = module.resource_group.name
+#   subnet_id           = module.virtual_network.bastion_subnet_id
+#   depends_on          = [module.virtual_network]
+# }
 
 module "vm" {
   source              = "./modules/create_vm"
@@ -67,4 +65,14 @@ module "enable_winrm_over_https" {
   vm_ids         = module.vm.vm_ids
   vm_private_ips = module.vm.vm_private_ips
   vm_public_ips  = module.vm.vm_public_ips
+}
+
+module "create_ansible_control_node" {
+  source                 = "./modules/create_ansible_control_node"
+  ssh_key_path           = var.ssh_key_path
+  resource_group_name    = module.resource_group.name
+  location               = var.location
+  subnet_id              = module.virtual_network.subnet_ids[0]
+  network_security_group = module.network_security_group.nsg_id
+
 }
