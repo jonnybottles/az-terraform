@@ -10,8 +10,8 @@ resource "azurerm_virtual_machine_extension" "enable_winrm" {
 
   settings = <<SETTINGS
     {
-      "fileUris": ["https://jonnybottles.blob.core.windows.net/scripts/enable_winrm_https_template.ps1?sp=r&st=2024-06-08T20:45:25Z&se=2024-06-09T04:45:25Z&spr=https&sv=2022-11-02&sr=b&sig=Q9O%2FtUZhWV9WQcPEX3Q3Je49kT3siuxLWUjBHJDmLCM%3D"],
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File enable_winrm_https_template.ps1 -PrivateIp ${element(var.vm_private_ips, count.index)} ${length(var.vm_public_ips) > count.index ? "-PublicIp ${element(var.vm_public_ips, count.index)}" : ""}"
+      "fileUris": ["https://jonnybottles.blob.core.windows.net/scripts/enable_winrm_https_template.ps1?sp=r&st=2024-06-09T08:58:16Z&se=2029-04-01T16:58:16Z&spr=https&sv=2022-11-02&sr=b&sig=5%2BYqVoelau67YN%2BtR%2FkuUNV9Qs8f9bPNmBQwE7WmaVw%3D"],
+      "commandToExecute": "powershell -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force; ./enable_winrm_https_template.ps1 -PrivateIp ${element(var.vm_private_ips, count.index)} ${length(var.vm_public_ips) > count.index ? "-PublicIp ${element(var.vm_public_ips, count.index)}" : ""}\""
     }
   SETTINGS
 }
