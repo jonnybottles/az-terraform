@@ -1,11 +1,20 @@
 # /modules/create_ansible_control_node/main.tf
 
-resource "azurerm_public_ip" "control_node_pip" {
-  name                = "control-node-pip"
+resource "azurerm_network_interface" "control_node_nic" {
+  name                = "control-node-nic"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Static"
-  sku                 = "Standard"
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.vm_subnet_id
+    private_ip_address_allocation = "Dynamic"
+    primary                       = true
+  }
+
+  tags = {
+    environment = "test"
+  }
 }
 
 resource "azurerm_container_group" "control_node" {
@@ -13,6 +22,7 @@ resource "azurerm_container_group" "control_node" {
   location            = var.location
   resource_group_name = var.resource_group_name
   os_type             = "Linux"
+  subnet_ids          = [var.container_subnet_id]
 
   container {
     name   = "ansible-control-node"
@@ -32,19 +42,17 @@ resource "azurerm_container_group" "control_node" {
     volume {
       name       = "ssh-keys"
       mount_path = "/home/ansible/.ssh"
-      empty_dir = true
+      empty_dir  = true
     }
   }
 
-  ip_address_type = "Public"
-  dns_name_label  = "controlnode"
-  restart_policy  = "OnFailure"
+  ip_address_type = "Private"  # Use private IP
 
   tags = {
     environment = "test"
   }
 
   depends_on = [
-    azurerm_public_ip.control_node_pip
+    azurerm_network_interface.control_node_nic
   ]
 }

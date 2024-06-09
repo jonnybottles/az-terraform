@@ -37,14 +37,15 @@ module "nat_gateway" {
   prefix_length       = 30 # or any other length you prefer
 }
 
-# module "bastion_host" {
-#   source              = "./modules/create_bastion_host"
-#   bastion_name        = var.bastion_name
-#   location            = var.location
-#   resource_group_name = module.resource_group.name
-#   subnet_id           = module.virtual_network.bastion_subnet_id
-#   depends_on          = [module.virtual_network]
-# }
+module "bastion_host" {
+  source              = "./modules/create_bastion_host"
+  bastion_name        = var.bastion_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.virtual_network.bastion_subnet_id
+  depends_on          = [module.virtual_network]
+}
+
 
 module "vm" {
   source              = "./modules/create_vm"
@@ -72,7 +73,8 @@ module "create_ansible_control_node" {
   ssh_key_path           = var.ssh_key_path
   resource_group_name    = module.resource_group.name
   location               = var.location
-  subnet_id              = module.virtual_network.subnet_ids[0]
+  subnet_id              = module.virtual_network.subnet_ids[1]  # Use the containers-subnet for the container group
   network_security_group = module.network_security_group.nsg_id
-
+  container_subnet_id    = module.virtual_network.subnet_ids[1]  # Use the containers-subnet for the container group
+  vm_subnet_id           = module.virtual_network.subnet_ids[0]  # Use the vm-subnet for the control node NIC
 }

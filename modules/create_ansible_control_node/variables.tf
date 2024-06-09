@@ -16,11 +16,21 @@ variable "location" {
 }
 
 variable "subnet_id" {
-  description = "The ID of the subnet"
+  description = "The ID of the subnet to use"
   type        = string
 }
 
 variable "network_security_group" {
   description = "The ID of the network security group"
+  type        = string
+}
+
+variable "container_subnet_id" {
+  description = "The ID of the subnet for the container group"
+  type        = string
+}
+
+variable "vm_subnet_id" {
+  description = "The ID of the subnet for the VM NIC"
   type        = string
 }

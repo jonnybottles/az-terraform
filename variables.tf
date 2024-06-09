@@ -87,6 +87,8 @@ variable "bastion_name" {
 }
 
 
+
+
 ## Create VM module vars
 
 variable "vm_configs" {
