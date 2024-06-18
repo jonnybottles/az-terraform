@@ -1,6 +1,61 @@
 ---
-- name: Test WinRM connectivity
+- name: Test WinRM connectivity and install PowerShell 7
   hosts: windows
   tasks:
     - name: Gather facts
       win_ping:
+
+    - name: Gather facts
+      win_shell: echo "Gathering facts..."
+
+    - name: Ensure C:\temp directory exists
+      win_file:
+        path: C:\temp
+        state: directory
+
+    - name: Download PowerShell 7.3.4 installer
+      win_get_url:
+        url: "https://github.com/PowerShell/PowerShell/releases/download/v7.3.4/PowerShell-7.3.4-win-x64.msi"
+        dest: C:\temp\PowerShell-7.3.4-win-x64.msi
+
+    - name: Install PowerShell 7
+      win_package:
+        path: C:\temp\PowerShell-7.3.4-win-x64.msi
+        state: present
+
+    - name: Retrieve existing PATH variable
+      win_shell: '[System.Environment]::GetEnvironmentVariable("Path", "Machine")'
+      register: existing_path
+
+    - name: Add PowerShell 7 to system PATH
+      win_environment:
+        name: Path
+        value: '{{ existing_path.stdout }};C:\Program Files\PowerShell\7'
+        state: present
+        level: machine
+
+    - name: Reboot the machine to apply changes
+      win_reboot:
+        reboot_timeout: 600
+
+    - name: Verify PowerShell 7 installation
+      win_shell: |
+        $version = pwsh --version
+        if ($version -match "^.*\b7\..*") {  # Changed condition to match any characters followed by 7.*
+          Write-Output "PowerShell 7 installed successfully"
+        } else {
+          Write-Output "PowerShell 7 installation failed"
+          exit 1
+        }
+      register: verify_ps_version
+      ignore_errors: yes
+
+    - name: Debug PowerShell version output
+      debug:
+        msg: "{{ verify_ps_version.stdout_lines }}"
+      when: verify_ps_version.rc != 0
+
+    - name: Fail if PowerShell 7 installation verification failed
+      fail:
+        msg: "PowerShell 7 installation failed"
+      when: verify_ps_version.rc != 0

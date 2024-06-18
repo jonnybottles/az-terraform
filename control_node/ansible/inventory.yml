@@ -1,22 +1,22 @@
 [windows]
-172.190.183.109 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
-172.206.206.65 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
-172.190.183.71 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
-172.190.183.110 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+4.246.192.150 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.206.206.95 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+4.246.194.24 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+4.246.192.197 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 
 [all]
-172.190.183.109
-172.206.206.65
-172.190.183.71
-172.190.183.110
+4.246.192.150
+172.206.206.95
+4.246.194.24
+4.246.192.197
 
 [dcs]
-172.206.206.65
+172.206.206.95
 
 [non_dcs]
-172.190.183.109
-172.190.183.71
-172.190.183.110
+4.246.192.150
+4.246.194.24
+4.246.192.197
