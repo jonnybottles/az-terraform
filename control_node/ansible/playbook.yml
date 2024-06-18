@@ -59,3 +59,49 @@
       fail:
         msg: "PowerShell 7 installation failed"
       when: verify_ps_version.rc != 0
+
+- name: Promote Windows Server to a Domain Controller
+  hosts: dcs
+  tasks:
+    - name: Install AD-Domain-Services feature
+      win_feature:
+        name: AD-Domain-Services
+        state: present
+
+    - name: Install DNS feature (optional, if you want DNS server installed)
+      win_feature:
+        name: DNS
+        state: present
+
+    - name: Promote server to a domain controller
+      win_shell: |
+        Install-ADDSForest `
+          -DomainName "example.com" `
+          -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText 'changeme' -Force) `
+          -InstallDns `
+          -Force:$true
+      register: dcpromo_result
+
+    - name: Reboot the server to complete the promotion
+      win_reboot:
+        reboot_timeout: 600
+
+    - name: Wait for the server to come back online
+      wait_for_connection:
+        timeout: 300
+
+    - name: Verify Domain Controller promotion
+      win_shell: |
+        Get-ADDomainController -Filter *
+      register: dc_check
+      ignore_errors: yes
+
+    - name: Debug Domain Controller promotion output
+      debug:
+        msg: "{{ dc_check.stdout_lines }}"
+      when: dc_check.rc != 0
+
+    - name: Fail if Domain Controller promotion verification failed
+      fail:
+        msg: "Domain Controller promotion failed"
+      when: dc_check.rc != 0
