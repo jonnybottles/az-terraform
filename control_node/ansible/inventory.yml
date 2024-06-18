@@ -1,5 +1,22 @@
 [windows]
-192.168.1.8 ansible_user=jonathan ansible_password='REPLACE' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.190.183.109 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.206.206.65 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.190.183.71 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+172.190.183.110 ansible_user=jonathan ansible_password='B@ttle$721B@ttle$721' ansible_port=5986 ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
+
+[all]
+172.190.183.109
+172.206.206.65
+172.190.183.71
+172.190.183.110
+
+[dcs]
+172.206.206.65
+
+[non_dcs]
+172.190.183.109
+172.190.183.71
+172.190.183.110

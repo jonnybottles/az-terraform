@@ -19,3 +19,8 @@ output "vm_public_ips" {
   description = "The public IP addresses of the VMs"
   value       = [for ip in azurerm_public_ip.public_ip[*] : ip.ip_address]
 }
+
+output "vm_is_dc" {
+  description = "Indicates whether each VM is a Domain Controller"
+  value       = [for config in var.vm_configs : config.is_dc]
+}

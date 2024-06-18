@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     procps \
     ubuntu-standard \
     git \
+    bash-completion \
     tzdata
 
 # Set the timezone (replace with your desired timezone)

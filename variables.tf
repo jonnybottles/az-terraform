@@ -99,6 +99,7 @@ variable "vm_configs" {
     disk_size_gb               = number
     create_public_ip           = bool
     enable_powershell_remoting = bool
+    is_dc                      = bool
     image = object({
       publisher = string
       offer     = string
@@ -109,5 +110,18 @@ variable "vm_configs" {
 
 variable "ssh_key_path" {
   description = "The path to the SSH public key file"
+  type        = string
+}
+
+# Create ansible inventory file variables
+
+variable "use_public_ip" {
+  description = "Whether to use public IPs for the inventory file"
+  type        = bool
+  default     = true
+}
+
+variable "inventory_file_path" {
+  description = "The path to the generated inventory file"
   type        = string
 }

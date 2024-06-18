@@ -36,6 +36,7 @@ variable "vm_configs" {
     disk_size_gb               = number
     create_public_ip           = bool
     enable_powershell_remoting = bool
+    is_dc                      = bool
     image = object({
       publisher = string
       offer     = string
