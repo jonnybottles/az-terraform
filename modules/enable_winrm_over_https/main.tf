@@ -16,21 +16,3 @@ resource "azurerm_virtual_machine_extension" "enable_winrm" {
   SETTINGS
 }
 
-#resource "null_resource" "check_winrm" {
-#  count = length([for vm in var.vm_configs : vm if vm.enable_powershell_remoting])
-#
-#  connection {
-#    type     = "winrm"
-#    user     = var.admin_username
-#    password = var.admin_password
-#    host     = element(var.vm_private_ips, count.index)
-#  }
-#
-#  provisioner "remote-exec" {
-#    inline = [
-#      "if (Test-Path 'C:\\enable_winrm_https.log') { Get-Content 'C:\\enable_winrm_https.log' } else { exit 1 }"
-#    ]
-#  }
-#
-#  depends_on = [azurerm_virtual_machine_extension.enable_winrm]
-#}

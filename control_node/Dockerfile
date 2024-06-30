@@ -1,6 +1,12 @@
 # Use a base image with Python installed
 FROM ubuntu:20.04
 
+# TODO:
+# put ansible code in its own git repo
+# at clone git repo into this docker container
+# create playbook to join containers to domain
+# create playbook to install vscode and remote packages to win 11 box
+
 # Set environment variable to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -23,7 +29,7 @@ RUN apt-get update && apt-get install -y \
     bash-completion \
     tzdata
 
-# Set the timezone (replace with your desired timezone)
+# Set the timezone 
 ENV TZ=Etc/UTC
 
 # Install PowerShell

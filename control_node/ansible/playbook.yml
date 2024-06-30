@@ -34,9 +34,9 @@
         state: present
         level: machine
 
-    - name: Reboot the machine to apply changes
-      win_reboot:
-        reboot_timeout: 600
+    # - name: Reboot the machine to apply changes
+    #   win_reboot:
+    #     reboot_timeout: 600
 
     - name: Verify PowerShell 7 installation
       win_shell: |
@@ -77,7 +77,7 @@
       win_shell: |
         Install-ADDSForest `
           -DomainName "example.com" `
-          -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText 'changeme' -Force) `
+          -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText 'P@ssw0rd123!@#' -Force) `
           -InstallDns `
           -Force:$true
       register: dcpromo_result

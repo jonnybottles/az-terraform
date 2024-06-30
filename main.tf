@@ -34,7 +34,7 @@ module "nat_gateway" {
   location            = var.location
   resource_group_name = module.resource_group.name
   subnet_id           = module.virtual_network.subnet_ids[0]
-  prefix_length       = 30 # or any other length you prefer
+  prefix_length       = 30 # or any other length 
 }
 
 #module "bastion_host" {
