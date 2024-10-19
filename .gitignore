@@ -36,3 +36,5 @@ terraform.rc
 control_node/ansible/inventory.yml
 
 **/inventory.yml
+ansible/inventory.yml
+inventory.yml
