@@ -7,6 +7,7 @@ FROM ubuntu:20.04
 # create playbook to join containers to domain
 # create playbook to install vscode and remote packages to win 11 box
 
+
 # Set environment variable to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 

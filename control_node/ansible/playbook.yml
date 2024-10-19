@@ -34,9 +34,9 @@
         state: present
         level: machine
 
-    # - name: Reboot the machine to apply changes
-    #   win_reboot:
-    #     reboot_timeout: 600
+    - name: Reboot the machine to apply changes
+      win_reboot:
+        reboot_timeout: 600
 
     - name: Verify PowerShell 7 installation
       win_shell: |
@@ -105,3 +105,4 @@
       fail:
         msg: "Domain Controller promotion failed"
       when: dc_check.rc != 0
+# need to add tasks to join clients to domain
